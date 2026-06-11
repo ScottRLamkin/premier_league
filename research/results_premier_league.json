@@ -1,0 +1,145 @@
+{
+  "n_train": 11817,
+  "n_test": 260,
+  "league": "Premier League",
+  "baseline: class priors (home-biased)": {
+    "accuracy": 0.4231,
+    "log_loss": 1.0745,
+    "confusion_matrix": {
+      "labels": [
+        "A",
+        "D",
+        "H"
+      ],
+      "matrix": [
+        [
+          0,
+          0,
+          88
+        ],
+        [
+          0,
+          0,
+          62
+        ],
+        [
+          0,
+          0,
+          110
+        ]
+      ]
+    }
+  },
+  "Elo-diff only logistic regression": {
+    "accuracy": 0.5115,
+    "log_loss": 0.9962,
+    "confusion_matrix": {
+      "labels": [
+        "A",
+        "D",
+        "H"
+      ],
+      "matrix": [
+        [
+          43,
+          0,
+          45
+        ],
+        [
+          22,
+          0,
+          40
+        ],
+        [
+          20,
+          0,
+          90
+        ]
+      ]
+    }
+  },
+  "LogReg, all 199 form features": {
+    "accuracy": 0.5038,
+    "log_loss": 1.0444,
+    "confusion_matrix": {
+      "labels": [
+        "A",
+        "D",
+        "H"
+      ],
+      "matrix": [
+        [
+          41,
+          2,
+          45
+        ],
+        [
+          18,
+          0,
+          44
+        ],
+        [
+          19,
+          1,
+          90
+        ]
+      ]
+    }
+  },
+  "HistGradientBoosting": {
+    "accuracy": 0.5,
+    "log_loss": 1.022,
+    "confusion_matrix": {
+      "labels": [
+        "A",
+        "D",
+        "H"
+      ],
+      "matrix": [
+        [
+          45,
+          0,
+          43
+        ],
+        [
+          24,
+          0,
+          38
+        ],
+        [
+          25,
+          0,
+          85
+        ]
+      ]
+    }
+  },
+  "Ensemble (LR + GB)": {
+    "accuracy": 0.4885,
+    "log_loss": 1.0245,
+    "confusion_matrix": {
+      "labels": [
+        "A",
+        "D",
+        "H"
+      ],
+      "matrix": [
+        [
+          41,
+          1,
+          46
+        ],
+        [
+          20,
+          0,
+          42
+        ],
+        [
+          24,
+          0,
+          86
+        ]
+      ]
+    }
+  }
+}

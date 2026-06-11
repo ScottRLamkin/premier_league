@@ -1,0 +1,145 @@
+{
+  "n_train": 11817,
+  "n_test": 1730,
+  "league": "all",
+  "baseline: class priors (home-biased)": {
+    "accuracy": 0.4353,
+    "log_loss": 1.0748,
+    "confusion_matrix": {
+      "labels": [
+        "A",
+        "D",
+        "H"
+      ],
+      "matrix": [
+        [
+          0,
+          0,
+          525
+        ],
+        [
+          0,
+          0,
+          452
+        ],
+        [
+          0,
+          0,
+          753
+        ]
+      ]
+    }
+  },
+  "Elo-diff only logistic regression": {
+    "accuracy": 0.5116,
+    "log_loss": 1.0007,
+    "confusion_matrix": {
+      "labels": [
+        "A",
+        "D",
+        "H"
+      ],
+      "matrix": [
+        [
+          276,
+          0,
+          249
+        ],
+        [
+          148,
+          0,
+          304
+        ],
+        [
+          144,
+          0,
+          609
+        ]
+      ]
+    }
+  },
+  "LogReg, all 199 form features": {
+    "accuracy": 0.5064,
+    "log_loss": 1.0213,
+    "confusion_matrix": {
+      "labels": [
+        "A",
+        "D",
+        "H"
+      ],
+      "matrix": [
+        [
+          254,
+          6,
+          265
+        ],
+        [
+          133,
+          9,
+          310
+        ],
+        [
+          131,
+          9,
+          613
+        ]
+      ]
+    }
+  },
+  "HistGradientBoosting": {
+    "accuracy": 0.5058,
+    "log_loss": 1.0052,
+    "confusion_matrix": {
+      "labels": [
+        "A",
+        "D",
+        "H"
+      ],
+      "matrix": [
+        [
+          272,
+          3,
+          250
+        ],
+        [
+          153,
+          1,
+          298
+        ],
+        [
+          148,
+          3,
+          602
+        ]
+      ]
+    }
+  },
+  "Ensemble (LR + GB)": {
+    "accuracy": 0.5087,
+    "log_loss": 1.0065,
+    "confusion_matrix": {
+      "labels": [
+        "A",
+        "D",
+        "H"
+      ],
+      "matrix": [
+        [
+          267,
+          2,
+          256
+        ],
+        [
+          144,
+          0,
+          308
+        ],
+        [
+          138,
+          2,
+          613
+        ]
+      ]
+    }
+  }
+}
