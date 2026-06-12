@@ -1,0 +1,61 @@
+{
+  "tuned": {
+    "xi": 0.00125,
+    "rho": -0.1
+  },
+  "n_test": 1730,
+  "all leagues": {
+    "Elo logistic regression (baseline)": {
+      "accuracy": 0.511,
+      "log_loss": 1.0006,
+      "rps": 0.2032
+    },
+    "Dixon-Coles Poisson (decay + rho)": {
+      "accuracy": 0.4983,
+      "log_loss": 1.0003,
+      "rps": 0.2037
+    },
+    "Feature Poisson (form + Elo)": {
+      "accuracy": 0.5121,
+      "log_loss": 1.0014,
+      "rps": 0.2037
+    },
+    "Blend: DC + feature Poisson": {
+      "accuracy": 0.5133,
+      "log_loss": 0.9961,
+      "rps": 0.2021
+    },
+    "Blend: DC + feature + Elo-LR": {
+      "accuracy": 0.5098,
+      "log_loss": 0.9952,
+      "rps": 0.2018
+    }
+  },
+  "Premier League": {
+    "Elo logistic regression (baseline)": {
+      "accuracy": 0.5115,
+      "log_loss": 0.9963,
+      "rps": 0.2082
+    },
+    "Dixon-Coles Poisson (decay + rho)": {
+      "accuracy": 0.4923,
+      "log_loss": 1.01,
+      "rps": 0.2125
+    },
+    "Feature Poisson (form + Elo)": {
+      "accuracy": 0.5231,
+      "log_loss": 1.0026,
+      "rps": 0.209
+    },
+    "Blend: DC + feature Poisson": {
+      "accuracy": 0.5192,
+      "log_loss": 1.0016,
+      "rps": 0.2093
+    },
+    "Blend: DC + feature + Elo-LR": {
+      "accuracy": 0.5231,
+      "log_loss": 0.9976,
+      "rps": 0.2082
+    }
+  }
+}

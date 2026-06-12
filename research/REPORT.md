@@ -140,14 +140,85 @@ Premier-League-only test (260 matches) gives the same picture: Elo-only 51.2% /
   transfer-window effects (combine with the `Transfers` class), or a
   value-betting backtest (model probability vs. market price).
 
+---
+
+# Part 2 — Goal models and xG analysis
+
+Follow-up implementing the recommendations above: probability-first goal
+models and the xG persistence study.
+
+## 5. Goal-based models (Dixon-Coles and feature Poisson)
+
+Instead of classifying H/D/A directly, predict each team's goal rate, build
+the full score grid (with the Dixon-Coles low-score correction) and read off
+outcome probabilities. Hyperparameters — time-decay `xi` and low-score `rho` —
+were tuned **only** on 2023-24 (best: `xi=0.00125`/day ≈ 2-season half-life,
+`rho=-0.10`); evaluation is on the untouched 2024-25 season. The team-strength
+model is refit monthly during the test season, exactly as it would run live.
+RPS = ranked probability score (the standard football metric; lower is
+better). Code: `goal_models.py`.
+
+**Test 2024-25, all leagues (1,730 matches):**
+
+| Model | Accuracy | Log loss | RPS |
+|---|---|---|---|
+| Elo logistic regression (part-1 baseline) | 51.1% | 1.0006 | 0.2032 |
+| Dixon-Coles Poisson (attack/defence, decay, rho) | 49.8% | 1.0003 | 0.2037 |
+| Feature Poisson (lag-5 form + Elo) | 51.2% | 1.0014 | 0.2037 |
+| **Blend: DC + feature Poisson + Elo-LR** | 51.0% | **0.9952** | **0.2018** |
+
+Premier-League-only test (260 matches): blend reaches 52.3% / 0.9976 / 0.2082.
+
+Takeaways:
+
+- The blend is the **first model to clearly beat Elo alone on probability
+  quality** (log loss 0.995 vs 1.001) — the three models are diverse enough
+  that averaging helps, even though no single one dominates.
+- Goal models give you the full score distribution for free
+  (over/under, correct-score, expected points), which classifiers can't.
+- The remaining gap to bookmaker closing odds (~0.95 log loss) is consistent
+  with the information you don't have: lineups, injuries, market flow.
+- Known limitation: newly promoted teams with no league history enter the DC
+  model as league-average (all-zero dummies), which overrates them; using the
+  bundled Championship data to initialize them is the obvious next step.
+
+## 6. Is finishing skill or luck? (xG persistence study)
+
+928 team-seasons across all 6 leagues, each split into first/second half
+(code: `xg_analysis.py`, figure: `xg_analysis.png`):
+
+| Quantity | Split-half correlation |
+|---|---|
+| xG created per game | **0.76** — strongly persistent (real skill) |
+| Finishing over-performance (goals − xG) per game | **0.14** — barely persistent (mostly luck) |
+| Finishing over-performance, season t vs t+1 (742 pairs) | 0.19 |
+
+And the classic result reproduces: **first-half xG difference predicts
+second-half points (r = 0.71) better than first-half goal difference
+(r = 0.69) or first-half points themselves (r = 0.66).** A team's underlying
+chance creation is more informative about its future than its actual results.
+
+Practical consequences for modeling and analysis on this dataset:
+
+- Feed models xG-based form rather than goals-based form; goals contain a
+  large luck component that regresses within the same season.
+- "Over-performing xG" is a sell signal, not a skill — useful for punditry
+  claims, fantasy decisions, and value detection against naive league tables.
+- The small but nonzero season-to-season persistence (~0.19) is consistent
+  with elite finishers being real but rare — a nice follow-up study at the
+  player level.
+
 ## Files in this folder
 
-- `build_and_evaluate.py` — feature pipeline (rolling form + Elo) and model
-  evaluation from the SQLite DB.
+- `build_and_evaluate.py` — feature pipeline (rolling form + Elo) and
+  classifier evaluation from the SQLite DB.
 - `evaluate_library_csv.py` — evaluation of the library's own CSV export,
   including the leakage demonstration.
-- `results_all_leagues.json`, `results_premier_league.json` — metrics and
-  confusion matrices.
+- `goal_models.py` — Dixon-Coles + feature Poisson + blends, probability
+  evaluation (accuracy / log loss / RPS).
+- `xg_analysis.py` — xG persistence and finishing-luck study; writes
+  `xg_analysis.png`.
+- `results_*.json` — all metrics and confusion matrices.
 
 Reproduce: load `premier_league/data/premier_league.sql` into a SQLite file,
 then `python research/build_and_evaluate.py --db <file>`.

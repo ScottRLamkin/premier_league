@@ -1,0 +1,14 @@
+{
+  "n_team_seasons": 928,
+  "split_half_correlations": {
+    "xG_per_game (skill check)": 0.76,
+    "finishing_overperformance (goals - xG)": 0.135
+  },
+  "season_to_season_overperformance_corr": 0.188,
+  "n_season_pairs": 742,
+  "predicting_h2_ppg_from_h1": {
+    "h1 points per game": 0.664,
+    "h1 goal difference per game": 0.688,
+    "h1 xG difference per game": 0.708
+  }
+}
